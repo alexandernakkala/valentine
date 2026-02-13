@@ -19,14 +19,15 @@ body {
     align-items: center;
     background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
     overflow: hidden;
-    animation: bgMove 8s infinite alternate ease-in-out;
 }
 
-@keyframes bgMove {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(20deg); }
+/* Floating animation */
+@keyframes floatCard {
+    from { transform: translateY(-8px); }
+    to { transform: translateY(8px); }
 }
 
+/* Main Card */
 .card {
     backdrop-filter: blur(15px);
     background: rgba(255,255,255,0.2);
@@ -37,11 +38,6 @@ body {
     width: 380px;
     border: 1px solid rgba(255,255,255,0.4);
     animation: floatCard 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatCard {
-    from { transform: translateY(-5px); }
-    to { transform: translateY(5px); }
 }
 
 h1 {
@@ -65,6 +61,7 @@ button {
     transition: 0.3s;
 }
 
+/* YES button */
 #yes {
     background: linear-gradient(45deg,#ff4d6d,#ff758c);
     color: white;
@@ -79,6 +76,7 @@ button {
     transform: translateX(-50%) scale(1.1);
 }
 
+/* NO button */
 #no {
     background: white;
     color: #444;
@@ -87,6 +85,7 @@ button {
     cursor: default;
 }
 
+/* Floating hearts */
 .hearts {
     position: fixed;
     inset: 0;
@@ -105,23 +104,85 @@ button {
     to   { transform: translateY(-10vh) scale(1.3); opacity: 1; }
 }
 
+/* YES SCREEN */
+.yes-screen {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,#ff758c,#ff7eb3);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.yes-text {
+    color: white;
+    font-size: 3rem;
+    text-shadow: 0 0 20px white;
+    margin-bottom: 80px;
+}
+
+/* Gift button cinematic slide up */
 .gift-btn {
-    margin-top: 30px;
-    padding: 15px 35px;
-    font-size: 1.2rem;
+    padding: 20px 45px;
+    font-size: 1.4rem;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    background: gold;
+    background: linear-gradient(45deg, gold, orange);
     color: black;
-    box-shadow: 0 0 25px gold;
-    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 30px gold;
+    animation: slideUp 1.2s ease-out forwards, pulse 1.5s infinite 1.2s;
+    opacity: 0;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 @keyframes pulse {
     0% { box-shadow: 0 0 10px gold; }
     50% { box-shadow: 0 0 35px gold; }
     100% { box-shadow: 0 0 10px gold; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Gift Screen */
+.gift-screen {
+    height: 100vh;
+    width: 100%;
+    background: radial-gradient(circle, #000000, #1a1a1a);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: gold;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.scooter {
+    font-size: 6rem;
+    margin-top: 40px;
+    animation: zoom 2s ease-in-out infinite alternate;
+}
+
+@keyframes zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.2); }
 }
 
 </style>
@@ -150,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function moveNo() {
         const maxX = container.clientWidth - noBtn.offsetWidth;
         const maxY = container.clientHeight - noBtn.offsetHeight;
-
         noBtn.style.left = Math.random() * maxX + "px";
         noBtn.style.top  = Math.random() * maxY + "px";
     }
@@ -177,60 +237,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     yesBtn.onclick = () => {
         document.body.innerHTML = `
-        <div style="
-            height:100vh;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            background:linear-gradient(135deg,#ff758c,#ff7eb3);
-            text-align:center;
-            font-family:Poppins,sans-serif;">
-            
-            <h1 style="
-                color:white;
-                font-size:3rem;
-                text-shadow:0 0 20px white;">
+        <div class="yes-screen">
+            <h1 class="yes-text">
                 Yayyyy 🥰💘<br>
                 I knew you'd say YES ❤️
             </h1>
-
             <button class="gift-btn" onclick="showGift()">
                 🎁 Claim Your Gift
             </button>
         </div>`;
     };
-
 });
 
 function showGift() {
     document.body.innerHTML = `
-    <div style="
-        height:100vh;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        background:black;
-        color:white;
-        text-align:center;
-        font-family:Poppins,sans-serif;">
-        
-        <h1 style="font-size:3rem; color:gold;">
-            🎉 Surpriseeee 🎉
-        </h1>
-
-        <h2 style="font-size:2rem; margin-top:20px;">
+    <div class="gift-screen">
+        <h1>🎉 Surpriseeee 🎉</h1>
+        <h2 style="margin-top:20px; font-size:2rem;">
             🛵 Ather Rizta S Scooty is Your Gift 💝
         </h2>
-
-        <div style="
-            font-size:6rem;
-            margin-top:30px;
-            animation: spin 3s infinite linear;">
-            🛵
-        </div>
-
+        <div class="scooter">🛵</div>
     </div>`;
 }
 </script>
